@@ -25,6 +25,11 @@ const data = [
     "id": 5,
     "email": "shubham@gmail.com",
     "mobile": 8542156358
+  },
+  {
+    "id": 6,
+    "email": "nasir@gmail.com",
+    "mobile": 8542156358
   }
 ];
 
