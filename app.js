@@ -28,8 +28,25 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+const allowedOrigins = [
+  '*',
+  'https://localhost:8000',
+];
 
-app.use(cors());
+// Function to check if the origin is allowed
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests with no origin, like mobile apps or curl requests
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
+app.use(cors(corsOptions));
 app.use('/notes', notesRouter);
 app.use("/dummy",dummyRouter);
 app.use('/users', usersRouter);
@@ -39,6 +56,12 @@ app.use('/forgot-password',Multer.none(),forgotRouter);
 app.use('/logout',logoutRouter);
 app.use('/verify-token',verifyTokenRouter);
 app.use('/revenue-updates',revenueUpdatesRouter);
+
+
+// Home route
+app.get("/", (req, res) => {
+  res.status(200).send({ message: "welcome mui dashboard" });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -7,6 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('api:server');
 var http = require('http');
+var dotenv = require("dotenv");
+dotenv.config();
 
 /**
  * Get port from environment and store in Express.
@@ -14,6 +16,7 @@ var http = require('http');
 
 var port = normalizePort(process.env.PORT || '3030');
 app.set('port', port);
+
 
 /**
  * Create HTTP server.
@@ -61,6 +64,8 @@ function onError(error) {
   var bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port;
+    console.log('Listening on ' + bind); // Add this line to confirm the port
+    debug('Listening on ' + bind);
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
